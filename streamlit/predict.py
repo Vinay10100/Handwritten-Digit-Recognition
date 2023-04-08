@@ -1,7 +1,6 @@
 import streamlit as st
-from streamlit_canvas import st_canvas
 import tensorflow as tf
-from PIL import Image
+from PIL import Image, ImageDraw
 import numpy as np
 
 # Load TFLite model
@@ -47,21 +46,18 @@ def predict(image):
 # Define Streamlit app
 def app():
     st.title("Handwritten Digit Recognition")
-    # Create canvas to draw digit
-    canvas = st_canvas(
-        fill_color="#FFFFFF",
-        stroke_width=10,
-        stroke_color="#000000",
-        background_color="#FFFFFF",
+    # Create drawing area to draw digit
+    st.write("Draw a digit:")
+    canvas = st.image(
+        Image.new('L', (300, 300), color=255),
         width=300,
         height=300,
-        drawing_mode="freedraw",
-        key="canvas"
+        caption="Draw on the white area above.",
     )
     # Make prediction when "Predict" button is clicked
     if st.button("Predict"):
-        # Convert canvas to PIL image
-        image = Image.fromarray(canvas.image_data.astype('uint8'), mode='L')
+        # Get image from drawing area
+        image = canvas.image.copy().convert('L')
         # Make prediction
         label = predict(image)
         # Display predicted label

@@ -1,73 +1,43 @@
-from keras.preprocessing import image
-import tensorflow as tf
-import numpy as np
 import streamlit as st
-from streamlit_canvas import st_canvas
-from PIL import ImageOps, Image
-import io
+import numpy as np
+import tensorflow as tf
+from PIL import Image, ImageOps
 
-# Load TFLite model and allocate tensors.
-interpreter = tf.lite.Interpreter(model_path="streamlit/main.tflite")
+st.set_option('deprecation.showfileUploaderEncoding', False)
+st.title("Handwritten Digit Recognition App")
+
+# Load the TFLite model and allocate tensors.
+interpreter = tf.lite.Interpreter(model_path="mnist.tflite")
 interpreter.allocate_tensors()
 
 # Get input and output tensors.
 input_details = interpreter.get_input_details()
 output_details = interpreter.get_output_details()
 
-
-def predict_digit(image):
-    # Preprocess the image
-    image = ImageOps.grayscale(image)
-    image = image.resize((28, 28))
-    image = image.reshape((1, 28, 28, 1))
-    image = np.array(image) / 255.0
-
-    # Make a prediction using the TFLite model
+def predict(image):
+    # Preprocess the image.
+    image = np.array(image)
+    image = image[:,:,3]
+    image = Image.fromarray((image).astype(np.uint8))
+    image = image.resize((28,28))
+    image = ImageOps.invert(image)
+    image = np.array(image)
+    image = image.reshape(1,28,28,1)
+    image = image.astype('float32')
+    image /= 255
+    
+    # Run inference on the model.
     interpreter.set_tensor(input_details[0]['index'], image)
     interpreter.invoke()
-    output_data = interpreter.get_tensor(output_details[0]['index'])
-    prediction = np.argmax(output_data)
-    
-    return prediction
-
+    pred = interpreter.get_tensor(output_details[0]['index'])
+    return np.argmax(pred)
 
 def main():
-    st.title("Handwritten Digit Classification Web App")
-    st.set_option('deprecation.showfileUploaderEncoding', False)
-
-    activities = ["Draw", "Upload"]
-    choice = st.sidebar.selectbox("Select Activity", activities)
-
-    if choice == "Draw":
-        st.subheader("Draw Digit")
-        canvas_result = st_canvas( 
-            stroke_width=20, 
-            stroke_color="#fff", 
-            background_color="#000", 
-            height=150, 
-            width=150, 
-            drawing_mode="freedraw", 
-            key="canvas",
-        )
-        if canvas_result.image_data is not None:
-            img = ImageOps.invert(Image.fromarray(canvas_result.image_data.astype('uint8'), 'L').resize((28, 28)))
-            st.image(img)
-            if st.button("Predict"):
-                digit = predict_digit(img)
-                st.write("Predicted digit:", digit)
-
-    elif choice == "Upload":
-        st.subheader("Upload Image")
-        file = st.file_uploader("Please upload an image file", type=["jpg", "png"])
-
-        if file is not None:
-            image = Image.open(file).convert("L")
-            st.image(image, caption="Uploaded Image", use_column_width=True)
-            if st.button("Predict"):
-                digit = predict_digit(image)
-                st.write("Predicted digit:", digit)
-
+    st.write("Draw a digit from 0 to 9")
+    canvas = st.sketchpad(width=200,height=200)
+    if st.button("Predict"):
+        digit = predict(canvas.image_data)
+        st.write("Prediction:", digit)
 
 if __name__ == "__main__":
     main()
-

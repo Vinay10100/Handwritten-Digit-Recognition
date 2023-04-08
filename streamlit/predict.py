@@ -7,7 +7,7 @@ st.set_option('deprecation.showfileUploaderEncoding', False)
 st.title("Handwritten Digit Recognition App")
 
 # Load the TFLite model and allocate tensors.
-interpreter = tf.lite.Interpreter(model_path="mnist.tflite")
+interpreter = tf.lite.Interpreter(model_path="streamlit/main.tflite")
 interpreter.allocate_tensors()
 
 # Get input and output tensors.

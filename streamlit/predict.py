@@ -6,7 +6,7 @@ import numpy as np
 
 # function to load the model
 def load_model():
-    model = tf.keras.models.load_model('streamlit/main.tflite')
+    model = tf.keras.models.load_model('streamlit/main.h5')
     return model
 
 # function to predict the digit

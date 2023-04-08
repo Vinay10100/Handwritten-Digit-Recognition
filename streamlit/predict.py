@@ -4,7 +4,7 @@ import numpy as np
 from PIL import Image
 
 # Load the model
-model = tf.keras.models.load_model('/streamlit/main.tflite')
+model = tf.keras.models.load_model('streamlit/main.tflite')
 
 # Define function to preprocess the image
 def preprocess_image(image):

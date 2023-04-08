@@ -2,6 +2,7 @@ from keras.preprocessing import image
 import tensorflow as tf
 import numpy as np
 import streamlit as st
+from streamlit_canvas import st_canvas
 from PIL import ImageOps, Image
 import io
 

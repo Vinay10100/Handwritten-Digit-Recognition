@@ -48,12 +48,8 @@ def app():
     st.title("Handwritten Digit Recognition")
     # Create drawing area to draw digit
     st.write("Draw a digit:")
-    canvas = st.image(
-        Image.new('L', (300, 300), color=255),
-        width=300,
-        height=300,
-        caption="Draw on the white area above.",
-    )
+    label = predict(image)st.write(f"Predicted label: {label}")
+
     # Make prediction when "Predict" button is clicked
     if st.button("Predict"):
         # Get image from drawing area

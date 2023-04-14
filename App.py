@@ -1,4 +1,5 @@
 import tensorflow as tf
+from tensorflow.keras.models import load_model
 from PIL import Image, ImageOps
 import numpy as np
 import pandas as pd
@@ -7,7 +8,7 @@ from streamlit_drawable_canvas import st_canvas
 
 # App
 def predictDigit(image):
-    model = tf.keras.models.load_model("model/mnist_model.h5")
+    model = load_model("model/mnist_model.h5")
     image = ImageOps.grayscale(image)
     img = image.resize((28,28))
     img = np.array(img, dtype='float32')

@@ -1,4 +1,4 @@
-# Handwritten-Digit-Recognition
+# Handwritten Digit Recognition using Convolutional Neural Networks (CNN)
 This project demonstrates Handwritten-Digit-Recognition using (CNN) Convolutional Neural Networks.
 ## Dataset
 The project uses the famous MNIST dataset, which consists of 60,000 labeled images of handwritten digits for training and 10,000 labeled images for testing. Each image is 28x28 pixels in size and grayscale, with pixel values ranging from 0 to 255. The dataset is preprocessed to normalize pixel values and split into training and testing sets.
@@ -23,4 +23,4 @@ To run the Streamlit app, follow these steps:
    ```bash
    pip install -r requirements.txt
 
-   streamlit run app.py
+   streamlit run App.py

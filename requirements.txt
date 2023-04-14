@@ -1,7 +1,7 @@
-tensorflow==2.8.1
+tensorflow==2.6.0
 Pillow==8.4.0
-numpy==1.22.2
-pandas==1.4.1
-matplotlib==3.6.0
-streamlit==1.7.1
-streamlit-drawable-canvas==0.11.0
+numpy==1.19.5
+pandas==1.3.3
+matplotlib==3.5.1
+streamlit==1.2.0
+streamlit_drawable_canvas==0.13.0

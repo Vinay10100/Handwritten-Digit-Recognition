@@ -2,3 +2,4 @@ streamlit==1.8.0
 tensorflow==2.8.0
 pillow==9.4.0
 numpy==1.22.3
+streamlit_drawable_canvas

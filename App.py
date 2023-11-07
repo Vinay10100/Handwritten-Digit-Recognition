@@ -40,7 +40,6 @@ canvas_result = st_canvas(
     background_color=bg_color,
     height=200,
     width=200,
-    drawing_mode=drawing_mode,
     key="canvas",
 )
 
